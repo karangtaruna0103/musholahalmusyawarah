@@ -71,18 +71,49 @@
     .marquee span {
       display: inline-block;
       padding-left: 100%;
-      animation: marquee 20s linear infinite;
+      animation: marquee 30s linear infinite;
     }
     @keyframes marquee {
       0%   { transform: translate(0, 0); }
       100% { transform: translate(-100%, 0); }
+    }
+    .imam-box {
+      margin-top: 25px;
+      padding: 15px;
+      background-color: #eef6f9;
+      border-left: 6px solid #3498db;
+      border-radius: 8px;
+      transition: transform 0.9s ease, background-color 0.4s ease;
+    }
+    .imam-box:hover {
+      transform: scale(1.03);
+      background-color: #d9f0f7;
+    }
+    .imam-box h3 {
+      margin: 0 0 10px;
+      color: #2c3e50;
+      animation: fadeIn 1s ease-out;
+    }
+    #imam-hari-ini {
+      font-size: 1.3rem;
+      font-weight: bold;
+      color: #34495e;
+      animation: popIn 0.9s ease-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.8); }
+      100% { opacity: 1; transform: scale(1); }
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="marquee">
-      <span>Selamat datang di Mushola Al Musyawarah | Mari jaga sholat berjamaah tepat waktu | Rapatkan Shaf Agar Sholat Kita Sempurna</span>
+      <span>Selamat datang di Mushola Al Musyawarah | Jl. H Pe'eng Kebon Jeruk Jakarta Barat 11530 | Mari jaga sholat berjamaah tepat waktu | Semoga hari Anda penuh berkah</span>
     </div>
     <h1>Mushola Al Musyawarah</h1>
     <div class="info" id="location">Menentukan lokasi...</div>
@@ -102,19 +133,40 @@
         <p id="countdown-iqomah">--:--:--</p>
       </div>
     </div>
+
+    <div class="imam-box">
+      <h3>Imam Hari Ini:</h3>
+      <p id="imam-hari-ini">Menentukan...</p>
+    </div>
   </div>
 
-  <audio id="adzan-audio" src="adzan.mp3" preload="auto"></audio>
+  <audio id="adzan-audio" src="muadzin adzan.mp3" preload="auto"></audio>
 
   <script>
     const lokasiEl = document.getElementById("location");
     const jadwalEl = document.getElementById("jadwal-salat");
     const countdownAdzanEl = document.getElementById("countdown-adzan");
     const countdownIqomahEl = document.getElementById("countdown-iqomah");
+    const imamEl = document.getElementById("imam-hari-ini");
     const audioAdzan = document.getElementById("adzan-audio");
     let waktuAdzanSelanjutnya = null;
     let waktuIqomahSelanjutnya = null;
     let adzanDikumandangkan = false;
+
+    const daftarImam = [
+      "H. Saifulloh",
+      "H. Suri",
+      "Asroni",
+      "H. Hamzah",
+      "Ahsanul Bisri",
+      "H. Muh. Yezib",
+    ];
+
+    function tampilkanImamHarian() {
+      const hari = new Date().getDay();
+      const namaImam = daftarImam[hari % daftarImam.length];
+      imamEl.textContent = namaImam;
+    }
 
     function getTodayDate() {
       const today = new Date();
@@ -165,7 +217,7 @@
             const jamAdzan = new Date(`${getTodayDate()} ${waktu}`);
             if (!waktuAdzanSelanjutnya && jamAdzan > new Date()) {
               waktuAdzanSelanjutnya = jamAdzan;
-              waktuIqomahSelanjutnya = new Date(jamAdzan.getTime() + 10 * 60000); // 10 menit setelah adzan
+              waktuIqomahSelanjutnya = new Date(jamAdzan.getTime() + 10 * 60000);
             }
           });
         });
@@ -175,9 +227,11 @@
       const { latitude, longitude } = pos.coords;
       lokasiEl.textContent = `Lokasi: ${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
       fetchJadwal(latitude, longitude);
+      tampilkanImamHarian();
       updateCountdowns();
     }, () => {
       lokasiEl.textContent = "Gagal menentukan lokasi. Aktifkan GPS.";
+      tampilkanImamHarian();
     });
 
     document.body.addEventListener("click", () => {
