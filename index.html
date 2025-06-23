@@ -1,242 +1,204 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Mushola Al Musyawarah</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(to right, #e0eafc, #cfdef3);
-      margin: 0;
-      padding: 20px;
-      color: #333;
+    /* Tambahan animasi langsung */
+    .fade-in {
+      animation: fadeIn 1.5s ease-in;
     }
-    .container {
-      max-width: 700px;
-      margin: auto;
-      background: #fff;
-      border-radius: 16px;
-      padding: 30px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+
+    .slide-up {
+      animation: slideUp 1s ease-out;
     }
-    h1 {
-      text-align: center;
-      font-size: 2rem;
-      color: #2c3e50;
-    }
-    .info {
-      text-align: center;
-      margin-bottom: 20px;
-      font-weight: 600;
-    }
-    .jadwal {
-      background: #f9f9f9;
-      border-radius: 10px;
-      padding: 15px;
-      margin-top: 20px;
-    }
-    .jadwal ul {
-      list-style: none;
-      padding: 0;
-    }
-    .jadwal li {
-      display: flex;
-      justify-content: space-between;
-      padding: 8px 0;
-      border-bottom: 1px dashed #ccc;
-    }
-    .countdowns {
-      margin-top: 30px;
-      text-align: center;
-    }
-    .countdowns div {
-      margin: 10px 0;
-    }
-    .countdowns p {
-      font-size: 2rem;
-      color: #2980b9;
-    }
-    .marquee {
-      background: #2c3e50;
-      color: #fff;
-      padding: 10px;
-      overflow: hidden;
-      white-space: nowrap;
-      box-sizing: border-box;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-    .marquee span {
-      display: inline-block;
-      padding-left: 100%;
-      animation: marquee 40s linear infinite;
-    }
-    @keyframes marquee {
-      0%   { transform: translate(0, 0); }
-      100% { transform: translate(-100%, 0); }
-    }
-    .imam-box {
-      margin-top: 25px;
-      padding: 15px;
-      background-color: #eef6f9;
-      border-left: 6px solid #3498db;
-      border-radius: 8px;
-      transition: transform 0.9s ease, background-color 0.4s ease;
-    }
-    .imam-box:hover {
-      transform: scale(1.03);
-      background-color: #d9f0f7;
-    }
-    .imam-box h3 {
-      margin: 0 0 10px;
-      color: #2c3e50;
-      animation: fadeIn 1s ease-out;
-    }
-    #imam-hari-ini {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #34495e;
-      animation: popIn 0.9s ease-out;
-    }
+
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(-10px); }
-      to   { opacity: 1; transform: translateY(0); }
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.8); }
-      100% { opacity: 1; transform: scale(1); }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    #jam-digital {
+      font-size: 2rem;
+      font-weight: bold;
+      color: #198754;
+    }
+
+    #cuaca {
+      font-size: 1rem;
+      color: #555;
     }
   </style>
 </head>
-<body>
+<body onload="loadJadwalSholat(); tampilkanJam(); ambilCuaca();">
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-success fade-in">
+    <div class="container">
+      <a class="navbar-brand" href="#">Mushola Al Musyawarah</a>
+      <button class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a href="index.html" class="nav-link active">Beranda</a></li>
+          <li class="nav-item"><a href="pengumuman.html" class="nav-link">Pengumuman</a></li>
+          <li class="nav-item"><a href="galeri.html" class="nav-link">Galeri</a></li>
+          <li class="nav-item"><a href="kontak.html" class="nav-link">Kontak</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Running Text (Marquee) -->
+<div class="bg-warning py-2 marquee-container">
+  <marquee behavior="scroll" direction="left" scrollamount="5" class="text-dark fw-semibold">
+    Assalamu'alaikum Warahmatullahi Wabarakatuh — Selamat Datang di Mushola Al Musyawarah — Jalan H Pe'eng Kebon Jeruk Jakarta Barat 11530  — Info Kajian, Kegiatan Sosial, dan Pengumuman Terbaru Bisa Dilihat di Menu Pengumuman 📢
+  </marquee>
+</div>
+
+
+  <!-- Hero Section -->
+  <header class="bg-light text-center py-5 slide-up">
+    <div class="container">
+      <h1 class="mb-2">Selamat Datang di Mushola Al Musyawarah</h1>
+      <p class="lead">Tempat ibadah dan kegiatan keislaman masyarakat sekitar</p>
+      <div id="jam-digital" class="mt-3"></div>
+      <div id="cuaca" class="mt-2"></div>
+    </div>
+  </header>
+
+  <!-- Jadwal Sholat -->
+<section class="text-center py-5 bg-white fade-in">
   <div class="container">
-    <div class="marquee">
-      <span>Selamat datang di Mushola Al Musyawarah | Jl. H Pe'eng Kebon Jeruk Jakarta Barat 11530 | Mari jaga sholat berjamaah tepat waktu | Semoga hari Anda penuh berkah</span>
-    </div>
-    <h1>Mushola Al Musyawarah</h1>
-    <div class="info" id="location">Menentukan lokasi...</div>
+    <h2 class="mb-4">🕌 Jadwal Salat Hari Ini</h2>
 
-    <div class="jadwal">
-      <h2>Jadwal Sholat Hari Ini</h2>
-      <ul id="jadwal-salat"></ul>
+    <div class="row justify-content-center" id="jadwal-sholat">
+      <!-- Box jadwal akan di-generate lewat JS -->
     </div>
 
-    <div class="countdowns">
-      <div>
-        <h3>Hitung Mundur ke Adzan Berikutnya:</h3>
-        <p id="countdown-adzan">--:--:--</p>
-      </div>
-      <div>
-        <h3>Hitung Mundur ke Iqomah:</h3>
-        <p id="countdown-iqomah">--:--:--</p>
-      </div>
-    </div>
-
-    <div class="imam-box">
-      <h3>Imam Hari Ini:</h3>
-      <p id="imam-hari-ini">Menentukan...</p>
+    <div class="mt-4">
+      <p id="countdown-adzan" class="fs-5 text-success"></p>
     </div>
   </div>
+</section>
 
-  <audio id="adzan-audio" src="muadzin adzan.mp3" preload="auto"></audio>
+<!-- Jadwal Imam -->
+<section class="text-center py-5 bg-light fade-in">
+  <div class="container">
+    <h2 class="mb-4">🧎‍♂️ Jadwal Imam Salat Mingguan</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-striped">
+        <thead class="table-success">
+          <tr>
+            <th>Hari</th>
+            <th>Subuh</th>
+            <th>Dzuhur</th>
+            <th>Ashar</th>
+            <th>Maghrib</th>
+            <th>Isya</th>
+          </tr>
+        </thead>
+        <tbody id="jadwal-imam-body">
+          <!-- Data diisi oleh JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
 
+<!-- Fasilitas Mushola -->
+<section class="py-5 bg-white fade-in">
+  <div class="container">
+    <h2 class="text-center mb-4">🏛️ Fasilitas Mushola</h2>
+    <div class="row g-4 text-center">
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="p-3 border rounded shadow-sm fasilitas-box">
+          <i class="bi bi-person-fill fs-1 text-success"></i>
+          <h6 class="mt-2">Tempat Wudhu</h6>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="p-3 border rounded shadow-sm fasilitas-box">
+          <i class="bi bi-door-open-fill fs-1 text-success"></i>
+          <h6 class="mt-2">Ruang Ibadah Utama</h6>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="p-3 border rounded shadow-sm fasilitas-box">
+          <i class="bi bi-book fs-1 text-success"></i>
+          <h6 class="mt-2">Buku Yasin</h6>
+        </div>
+      </div>
+
+      <div class="col-6 col-md-4 col-lg-3">
+        <div class="p-3 border rounded shadow-sm fasilitas-box">
+          <i class="bi bi-people-fill fs-1 text-success"></i>
+          <h6 class="mt-2">Tempat Kajian</h6>
+        </div>
+      </div>
+
+      <!-- Tambahkan lagi jika perlu -->
+    </div>
+  </div>
+</section>
+
+
+  <!-- Footer -->
+  <footer class="bg-success text-white text-center p-3">
+    <p>&copy; 2025 Mushola Al Musyawarah. All Right Reserved</p>
+  </footer>
+
+  <!-- Script -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="jadwalsholat.js"></script>
   <script>
-    const lokasiEl = document.getElementById("location");
-    const jadwalEl = document.getElementById("jadwal-salat");
-    const countdownAdzanEl = document.getElementById("countdown-adzan");
-    const countdownIqomahEl = document.getElementById("countdown-iqomah");
-    const imamEl = document.getElementById("imam-hari-ini");
-    const audioAdzan = document.getElementById("adzan-audio");
-    let waktuAdzanSelanjutnya = null;
-    let waktuIqomahSelanjutnya = null;
-    let adzanDikumandangkan = false;
-
-    const daftarImam = [
-      "H. Saifulloh",
-      "H. Suri",
-      "Asroni",
-      "H. Hamzah",
-      "Ahsanul Bisri",
-      "H. Muh. Yezib",
-    ];
-
-    function tampilkanImamHarian() {
-      const hari = new Date().getDay();
-      const namaImam = daftarImam[hari % daftarImam.length];
-      imamEl.textContent = namaImam;
+    // Jam Digital Real-time
+    function tampilkanJam() {
+      setInterval(() => {
+        const now = new Date();
+        const jam = now.getHours().toString().padStart(2, '0');
+        const menit = now.getMinutes().toString().padStart(2, '0');
+        const detik = now.getSeconds().toString().padStart(2, '0');
+        document.getElementById("jam-digital").textContent = `${jam}:${menit}:${detik} WIB`;
+      }, 1000);
     }
 
-    function getTodayDate() {
-      const today = new Date();
-      return `${today.getFullYear()}-${String(today.getMonth()+1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
-    }
-
-    function updateCountdowns() {
-      const now = new Date();
-      if (waktuAdzanSelanjutnya) {
-        const sisaAdzan = waktuAdzanSelanjutnya - now;
-        countdownAdzanEl.textContent = formatTime(sisaAdzan);
-        if (sisaAdzan <= 0 && !adzanDikumandangkan) {
-          audioAdzan.play();
-          adzanDikumandangkan = true;
-        }
-      }
-      if (waktuIqomahSelanjutnya) {
-        const sisaIqomah = waktuIqomahSelanjutnya - now;
-        countdownIqomahEl.textContent = formatTime(sisaIqomah);
-      }
-      requestAnimationFrame(updateCountdowns);
-    }
-
-    function formatTime(ms) {
-      if (ms <= 0) return "00:00:00";
-      const totalSec = Math.floor(ms / 1000);
-      const h = String(Math.floor(totalSec / 3600)).padStart(2, "0");
-      const m = String(Math.floor((totalSec % 3600) / 60)).padStart(2, "0");
-      const s = String(totalSec % 60).padStart(2, "0");
-      return `${h}:${m}:${s}`;
-    }
-
-    function fetchJadwal(lat, lon) {
-      const tanggal = getTodayDate();
-      fetch(`https://api.aladhan.com/v1/timings/${tanggal}?latitude=${lat}&longitude=${lon}&method=2`)
-        .then(res => res.json())
-        .then(data => {
-          const timings = data.data.timings;
-          const salats = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
-          jadwalEl.innerHTML = "";
-
-          salats.forEach(nama => {
-            const waktu = timings[nama];
-            const li = document.createElement("li");
-            li.innerHTML = `<span>${nama}</span><span>${waktu}</span>`;
-            jadwalEl.appendChild(li);
-
-            const jamAdzan = new Date(`${getTodayDate()} ${waktu}`);
-            if (!waktuAdzanSelanjutnya && jamAdzan > new Date()) {
-              waktuAdzanSelanjutnya = jamAdzan;
-              waktuIqomahSelanjutnya = new Date(jamAdzan.getTime() + 10 * 60000);
-            }
-          });
+    // Cuaca menggunakan Open-Meteo API
+    function ambilCuaca() {
+      if ("geolocation" in navigator) {
+        navigator.geolocation.getCurrentPosition(async (pos) => {
+          const lat = pos.coords.latitude;
+          const lon = pos.coords.longitude;
+          try {
+            const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+            const data = await res.json();
+            const suhu = data.current_weather.temperature;
+            const kondisi = data.current_weather.weathercode;
+            document.getElementById("cuaca").innerText = `Cuaca Sekarang: ${suhu}°C`;
+          } catch (e) {
+            document.getElementById("cuaca").innerText = "Gagal mengambil data cuaca.";
+          }
+        }, () => {
+          document.getElementById("cuaca").innerText = "Lokasi tidak tersedia.";
         });
+      } else {
+        document.getElementById("cuaca").innerText = "Peramban tidak mendukung geolokasi.";
+      }
     }
-
-    navigator.geolocation.getCurrentPosition(pos => {
-      const { latitude, longitude } = pos.coords;
-      lokasiEl.textContent = `Lokasi: ${latitude.toFixed(3)}, ${longitude.toFixed(3)}`;
-      fetchJadwal(latitude, longitude);
-      tampilkanImamHarian();
-      updateCountdowns();
-    }, () => {
-      lokasiEl.textContent = "Gagal menentukan lokasi. Aktifkan GPS.";
-      tampilkanImamHarian();
-    });
-
-    document.body.addEventListener("click", () => {
-      audioAdzan.play().then(() => audioAdzan.pause());
-    }, { once: true });
   </script>
 </body>
 </html>
