@@ -175,3 +175,16 @@ table th, table td {
   transform: scale(1.03);
   transition: all 0.3s ease-in-out;
 }
+.himbauan-animasi {
+  min-height: 50px;
+  transition: all 0.4s ease-in-out;
+}
+
+.fade-in-himbauan {
+  animation: fadeHimbauan 1s ease-in;
+}
+
+@keyframes fadeHimbauan {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

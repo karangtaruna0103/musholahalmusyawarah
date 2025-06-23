@@ -156,6 +156,17 @@
   </div>
 </section>
 
+<!-- Himbauan Islami -->
+<section class="py-5 bg-light">
+  <div class="container text-center">
+    <h2 class="mb-4">🌿 Himbauan Islami</h2>
+    <div id="motivasi" class="fs-5 text-success fw-semibold himbauan-animasi">
+      Menjaga kebersihan adalah sebagian dari iman.
+    </div>
+  </div>
+</section>
+
+
 
   <!-- Footer -->
   <footer class="bg-success text-white text-center p-3">
@@ -200,5 +211,30 @@
       }
     }
   </script>
+  <script>
+  const pesanHimbauan = [
+    "🧼 Menjaga kebersihan adalah sebagian dari iman.",
+    "📴 Matikan HP sebelum masuk ke area mushola.",
+    "🧎‍♂️ Datanglah lebih awal untuk mendapatkan pahala lebih.",
+    "📚 Ikuti kajian rutin untuk memperkuat iman dan ilmu.",
+    "🙏 Jaga ketenangan dan kekhusyukan saat ibadah.",
+    "🚭 Dilarang Merokok Di Area Musholah"
+  ];
+
+  let indexPesan = 0;
+  const elemenMotivasi = document.getElementById("motivasi");
+
+  function putarHimbauan() {
+    elemenMotivasi.classList.remove("fade-in-himbauan");
+    void elemenMotivasi.offsetWidth; // Reset animation
+    elemenMotivasi.innerText = pesanHimbauan[indexPesan];
+    elemenMotivasi.classList.add("fade-in-himbauan");
+
+    indexPesan = (indexPesan + 1) % pesanHimbauan.length;
+  }
+
+  setInterval(putarHimbauan, 5000); // ganti setiap 5 detik
+</script>
+
 </body>
 </html>
