@@ -1,4 +1,4 @@
-/* Umum */
+/* ========== UMUM ========== */
 body {
   font-family: 'Segoe UI', sans-serif;
   background-color: #f8f9fa;
@@ -11,12 +11,12 @@ h1, h2, h3, h4 {
   font-weight: 600;
 }
 
-/* Navbar */
+/* ========== NAVBAR ========== */
 .navbar {
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Hero Section */
+/* ========== HERO SECTION ========== */
 header {
   background-image: url('../img/mushola-bg.jpg');
   background-size: cover;
@@ -30,38 +30,31 @@ header {
   flex-direction: column;
 }
 
-#jadwal-sholat .box-jadwal {
+/* ========== JADWAL SHOLAT ========== */
+#jadwal-sholat .card {
   background-color: #f0fdf4;
-  border: 2px solid #c6f6d5;
-  border-radius: 12px;
-  padding: 1rem;
-  margin: 0.5rem;
-  width: 120px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
-  transition: all 0.3s ease-in-out;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
 }
-#jadwal-sholat .box-jadwal:hover {
-  transform: translateY(-5px);
-  background-color: #e6ffe9;
+#jadwal-sholat .card:hover {
+  transform: scale(1.05);
 }
-#jadwal-sholat strong {
-  font-size: 1.1rem;
-  display: block;
-  color: #198754;
-}
-#jadwal-sholat span {
-  font-size: 1.2rem;
-  font-weight: bold;
-  color: #333;
+#countdown-adzan {
+  font-weight: 600;
+  text-align: center;
 }
 
-
-/* Footer */
-footer {
-  font-size: 14px;
+/* ========== JADWAL IMAM ========== */
+#imam-hari-ini .card {
+  background-color: #e7f3ff;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+#imam-hari-ini .card:hover {
+  transform: scale(1.05);
 }
 
-/* Pengumuman */
+/* ========== PENGUMUMAN ========== */
 .card-pengumuman {
   border-left: 5px solid #28a745;
   background-color: #fff;
@@ -70,34 +63,81 @@ footer {
   border-radius: 10px;
 }
 
-/* Galeri */
+/* ========== GALERI ========== */
 .gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
 }
-
 .gallery img {
   width: 100%;
-  border-radius: 10px;
+  height: 230px;
   object-fit: cover;
-  height: 200px;
+  border-radius: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+.gallery img:hover {
+  transform: scale(1.05);
 }
 
-/* Kontak */
+/* ========== KONTAK ========== */
 .kontak-box {
-  background: #e6f4ea;
+  background-color: #f8f9fa;
+  border-left: 5px solid #198754;
   padding: 1.5rem;
   border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
   margin-top: 1rem;
 }
-
 .kontak-box a {
-  color: #28a745;
   text-decoration: none;
+  color: #198754;
+}
+.kontak-box a:hover {
+  text-decoration: underline;
 }
 
-/* Dark Mode Otomatis Berdasarkan Jam */
+/* ========== FASILITAS ========== */
+.fasilitas-box:hover {
+  background-color: #f0fff4;
+  transform: scale(1.03);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ========== HIMBAUAN ========== */
+.himbauan-animasi {
+  min-height: 50px;
+  transition: all 0.4s ease-in-out;
+}
+.fade-in-himbauan {
+  animation: fadeHimbauan 1s ease-in;
+}
+@keyframes fadeHimbauan {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ========== MARQUEE / TEKS BERJALAN ========== */
+.marquee-container {
+  border-bottom: 2px solid #ffc107;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+marquee {
+  font-size: 1rem;
+}
+
+/* ========== TABEL ========== */
+table th, table td {
+  vertical-align: middle;
+  text-align: center;
+}
+
+/* ========== FOOTER ========== */
+footer {
+  font-size: 14px;
+}
+
+/* ========== DARK MODE (otomatis) ========== */
 @media (prefers-color-scheme: dark) {
   body {
     background-color: #121212;
@@ -129,70 +169,4 @@ footer {
   a.nav-link:hover {
     color: #fff !important;
   }
-}
-.marquee-container {
-  border-bottom: 2px solid #ffc107;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-}
-marquee {
-  font-size: 1rem;
-}
-
-.gallery img {
-  transition: transform 0.3s ease-in-out;
-  height: 230px;
-  object-fit: cover;
-  width: 100%;
-}
-
-.gallery img:hover {
-  transform: scale(1.05);
-}
-
-
-.kontak-box {
-  background-color: #f8f9fa;
-  border-left: 5px solid #198754;
-  padding: 1.5rem;
-  border-radius: 10px;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-}
-.kontak-box a {
-  text-decoration: none;
-  color: #198754;
-}
-.kontak-box a:hover {
-  text-decoration: underline;
-}
-
-table th, table td {
-  vertical-align: middle;
-  text-align: center;
-}
-
-.fasilitas-box:hover {
-  background-color: #f0fff4;
-  transform: scale(1.03);
-  transition: all 0.3s ease-in-out;
-}
-.himbauan-animasi {
-  min-height: 50px;
-  transition: all 0.4s ease-in-out;
-}
-
-.fade-in-himbauan {
-  animation: fadeHimbauan 1s ease-in;
-}
-
-@keyframes fadeHimbauan {
-  0% { opacity: 0; transform: translateY(10px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-#jadwal-sholat .card {
-  background-color: #f0fdf4;
-  border-radius: 10px;
-  transition: transform 0.3s ease-in-out;
-}
-#jadwal-sholat .card:hover {
-  transform: scale(1.05);
 }

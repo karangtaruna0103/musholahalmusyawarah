@@ -1,5 +1,6 @@
-// Data jadwal salat manual per kota (contoh Jakarta)
-// Kamu bisa sesuaikan berdasarkan lokasi atau gunakan API eksternal seperti Aladhan
+// ==========================
+// 🕌 DATA JADWAL SHOLAT (Manual - Jakarta)
+// ==========================
 const jadwalSholat = {
   Imsak: "04:30",
   Subuh: "04:40",
@@ -9,6 +10,9 @@ const jadwalSholat = {
   Isya: "19:04"
 };
 
+// ==========================
+// 🕰️ TAMPILKAN JADWAL SHOLAT
+// ==========================
 function loadJadwalSholat() {
   const container = document.getElementById("jadwal-sholat");
   container.innerHTML = "";
@@ -36,15 +40,31 @@ function loadJadwalSholat() {
   startCountdownToNextAdzan();
 }
 
-
+// ==========================
+// ⏳ COUNTDOWN KE ADZAN SELANJUTNYA
+// ==========================
 function startCountdownToNextAdzan() {
+function tampilkanNotifikasiAdzan(namaSholat) {
+  // Minta izin jika belum
+  if (Notification.permission !== "granted") {
+    Notification.requestPermission();
+  }
+
+  // Jika diizinkan, tampilkan notifikasi
+  if (Notification.permission === "granted") {
+    const notif = new Notification("Waktu Sholat", {
+      body: `Waktu ${namaSholat} telah tiba. Ayo sholat!`,
+      icon: "img/adzan-icon.png" // Tambahkan ikon di folder /img jika ada
+    });
+  }
+}
   const countdownEl = document.getElementById("countdown-adzan");
 
   function hitungCountdown() {
     const now = new Date();
-    const today = now.toISOString().split("T")[0]; // Format: YYYY-MM-DD
-    let nextLabel = "";
+    const today = now.toISOString().split("T")[0];
     let nextTime = null;
+    let nextLabel = "";
 
     for (let [nama, waktu] of Object.entries(jadwalSholat)) {
       const targetTime = new Date(`${today}T${waktu}:00`);
@@ -55,7 +75,7 @@ function startCountdownToNextAdzan() {
       }
     }
 
-    // Jika sudah lewat semua jadwal hari ini → kembali ke Imsak besok
+    // Jika semua waktu telah lewat hari ini → ambil Imsak besok
     if (!nextTime) {
       const besok = new Date(now);
       besok.setDate(now.getDate() + 1);
@@ -65,10 +85,12 @@ function startCountdownToNextAdzan() {
 
     const selisih = nextTime - now;
 
-    if (selisih <= 0) {
-      countdownEl.textContent = `Waktu ${nextLabel} telah tiba.`;
-      return;
-    }
+    if (selisih <= 1000) {
+  countdownEl.textContent = `Waktu ${nextLabel} telah tiba.`;
+  tampilkanNotifikasiAdzan(nextLabel);
+  return;
+}
+
 
     const jam = Math.floor(selisih / (1000 * 60 * 60));
     const menit = Math.floor((selisih % (1000 * 60 * 60)) / (1000 * 60));
@@ -81,33 +103,48 @@ function startCountdownToNextAdzan() {
   setInterval(hitungCountdown, 1000);
 }
 
-  const jadwalImam = {
-    "Senin":   { Subuh: "Ust. Fajar", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-    "Selasa":  { Subuh: "Ust. Rahmat", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-    "Rabu":    { Subuh: "Ust. Fajar", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-    "Kamis":   { Subuh: "Ust. Rahmat", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-    "Jumat":   { Subuh: "Ust. Fajar", Dzuhur: "KH. Ahmad (Khutbah)", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-    "Sabtu":   { Subuh: "Ust. Rahmat", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-    "Minggu":  { Subuh: "Ust. Fajar", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
-  };
+// ==========================
+// 🧎 JADWAL IMAM MINGGUAN
+// ==========================
+const jadwalImam = {
+  Senin:   { Subuh: "Ust. Fajar", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
+  Selasa:  { Subuh: "Ust. Rahmat", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
+  Rabu:    { Subuh: "Ust. Fajar", Dzuhur: "Ust. Ali", Ashar: "Ust. Iqbal", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
+  Kamis:   { Subuh: "Ust. Rahmat", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
+  Jumat:   { Subuh: "Ust. Fajar", Dzuhur: "KH. Ahmad (Khutbah)", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
+  Sabtu:   { Subuh: "Ust. Rahmat", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Rudi", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" },
+  Minggu:  { Subuh: "Ust. Fajar", Dzuhur: "Ust. Hasyim", Ashar: "Ust. Iqbal", Maghrib: "Ust. Deni", Isya: "Ust. Yusuf" }
+};
 
-  function tampilkanJadwalImam() {
-    const tbody = document.getElementById("jadwal-imam-body");
-    for (let hari in jadwalImam) {
-      const imam = jadwalImam[hari];
-      const row = `
-        <tr>
-          <td><strong>${hari}</strong></td>
-          <td>${imam.Subuh}</td>
-          <td>${imam.Dzuhur}</td>
-          <td>${imam.Ashar}</td>
-          <td>${imam.Maghrib}</td>
-          <td>${imam.Isya}</td>
-        </tr>
-      `;
-      tbody.innerHTML += row;
-    }
+// ==========================
+// 📋 TAMPILKAN JADWAL IMAM MINGGUAN
+// ==========================
+function tampilkanImamHariIni() {
+  const elemen = document.getElementById("imam-hari-ini");
+  if (!elemen) return;
+
+  const hari = new Date().toLocaleDateString('id-ID', { weekday: 'long' });
+  const imam = jadwalImam[hari];
+
+  if (!imam) {
+    elemen.innerHTML = `<p class="text-danger">Jadwal imam untuk hari ini belum tersedia.</p>`;
+    return;
   }
 
-  // Panggil fungsi saat halaman selesai dimuat
-  document.addEventListener("DOMContentLoaded", tampilkanJadwalImam);
+  for (let [sholat, nama] of Object.entries(imam)) {
+    const col = document.createElement("div");
+    col.className = "col-6 col-md-4 col-lg-2";
+    col.innerHTML = `
+      <div class="card border-info text-center shadow-sm">
+        <div class="card-body">
+          <h6 class="text-primary mb-1">${sholat}</h6>
+          <p class="fw-semibold mb-0">${nama}</p>
+        </div>
+      </div>
+    `;
+    elemen.appendChild(col);
+  }
+}
+document.addEventListener("DOMContentLoaded", () => {
+  tampilkanImamHariIni();
+});
